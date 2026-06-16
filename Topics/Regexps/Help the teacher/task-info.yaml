@@ -5,8 +5,5 @@ files:
     learner_created: false
 feedback_link: https://hyperskill.org/learn/step/10729#comment
 status: Solved
-feedback:
-  message: <html>Correct solution</html>
-  time: "Tue, 16 Jun 2026 15:57:49 UTC"
 record: -1
 submission_language: kotlin

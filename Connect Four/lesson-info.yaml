@@ -1,0 +1,7 @@
+type: framework
+content:
+  - Input game parameters
+  - Game board
+  - Game logic
+  - Winning condition
+  - Multiple games

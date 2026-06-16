@@ -4,7 +4,6 @@ buildscript {
     repositories {
         mavenCentral()
     }
-
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$hs.kotlin.version"
     }
@@ -49,14 +48,8 @@ subprojects {
     }
 
     sourceSets {
-        main {
-            kotlin.srcDir 'src'
-            java.srcDir 'src'
-        }
-        test {
-            kotlin.srcDir 'test'
-            java.srcDir 'test'
-        }
+        main.java.srcDir 'src'
+        test.java.srcDir 'test'
     }
 
     test {
@@ -76,7 +69,7 @@ project(':util') {
     }
 }
 
-configure(subprojects.findAll { it.name != 'util' }) {
+configure(subprojects.findAll {it.name != 'util'}) {
     dependencies {
         testImplementation project(':util').sourceSets.main.output
         testImplementation project(':util').sourceSets.test.output

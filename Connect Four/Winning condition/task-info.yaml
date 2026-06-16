@@ -1,0 +1,11 @@
+type: edu
+files:
+  - name: src/connectfour/Main.kt
+    visible: true
+    learner_created: false
+  - name: test/ConnectFourTest.kt
+    visible: true
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/202/stages/1005/implement#comment
+status: Unchecked
+record: -1

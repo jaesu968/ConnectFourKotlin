@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Connect_Four.iml" filepath="$PROJECT_DIR$/.idea/modules/Connect_Four.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.iml" filepath="$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Connect Four/task/Connect_Four.Connect_Four-task.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Different colo(u)rs/Connect_Four.Topics-Regexps-Different_colo_u_rs.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Escapism/Connect_Four.Topics-Regexps-Escapism.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Help the teacher/Connect_Four.Topics-Regexps-Help_the_teacher.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Regexps/Connect_Four.Topics-Regexps-Regexps.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Topics/Regexps/Rings of Power/Connect_Four.Topics-Regexps-Rings_of_Power.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.main.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.test.iml" filepath="$PROJECT_DIR$/.idea/modules/util/Connect_Four.util.test.iml" />
+    </modules>
+  </component>
+</project>

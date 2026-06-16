@@ -1,0 +1,13 @@
+type: edu
+files:
+  - name: src/connectfour/Main.kt
+    visible: true
+    learner_created: false
+  - name: test/ConnectFourTest.kt
+    learner_created: false
+feedback_link: https://hyperskill.org/projects/202/stages/1002/implement#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 16 Jun 2026 18:36:57 UTC"
+record: -1
