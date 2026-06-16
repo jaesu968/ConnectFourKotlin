@@ -1,0 +1,97 @@
+<div class="step-text">
+<p>Have you ever had to find and replace something specific in a long text? Or maybe you have looked for a contact in a phone book? Perhaps, you have even had experience solving searching or comparison problems with strings. Well, even if you haven't, you will probably encounter situations like this in the future. Knowing how to work with <strong><a class="theory-lookup not-relevant" href="/learn/step/10721" target="_blank" title="In Kotlin, a regular expression (regex) is a sequence of characters that forms a search pattern. | It is used to perform various operations on a text, such as searching, editing, or manipulating text based on certain patterns. Regular expressions can include special characters that have a specific meaning, like the dot character (.) that matches any single character, the question mark (?) that indicates optionality, or the escape character (\) that allows you to include special characters literally. In the context of the provided text, groups are an essential concept for creating complex regular expressions. Groups are created by enclosing a part of a regular expression in parentheses, allowing you to set a new priority for operations and apply quantifiers to the entire content of the bracket.">regular expressions</a></strong>, or <strong>regex</strong>, will be a big help. </p>
+<p>You are already familiar with the basics of regex language. In this topic, we are going to see how regular expressions are represented in Kotlin. </p>
+<h5 id="creating-a-regular-expression">Creating a regular expression</h5>
+<p>Let's look at two possible ways to make a regex instance in Kotlin.</p>
+<p>The first way is creating a <code class="language-kotlin">String</code> <a class="theory-lookup not-relevant" href="/learn/step/10721" target="_blank" title="In Kotlin, an instance refers to an object or an instance of a class that is created during runtime. | It is a subtype of every known type in Kotlin, meaning it can represent a value of any type in terms of type checking. This is particularly useful in situations where a function demands a return type, but it is impossible to return a value, such as when calculating a percentage if the value is zero. In such cases, a function that returns `Instance` can be used. The concept of instance is also related to threading, where only one thread can execute code in a synchronized method of a particular instance. This means that different threads can execute methods of different objects at the same time, a concept that can be summarized as one thread per instance.">instance</a> and then calling the method <code class="language-kotlin">toRegex()</code>, which will make a regex out of that string:</p>
+<pre><code class="language-kotlin">val string = "cat" // creating the "cat" string
+val regex = string.toRegex() // creating the "cat" regex</code></pre>
+<p>Another way is calling the <code class="language-kotlin">Regex</code> constructor:</p>
+<pre><code class="language-kotlin">val regex = Regex("cat") // creating a "cat" regex</code></pre>
+<p>The result will be the same: we’ll get the required regular expression. For now, we can assume that these options are equally good, and choosing one over the other is a matter of personal preference.</p>
+<h5 id="simple-matching">Simple matching</h5>
+<p>Now let’s see how we can actually use regexes. The first method we will consider is <code class="language-kotlin">matches()</code>. It is used for finding a <strong>full</strong> match, that is, the whole string has to match the pattern. </p>
+<p>Take a look at the signature: <code class="language-kotlin">fun Regex.matches(string: CharSequence): Boolean</code>. As you see, it takes a regex, calls the string that will be matched against the regular expression, and returns the boolean result. </p>
+<p>If you want more examples, check out the following code snippet:</p>
+<pre><code class="language-kotlin">val regex = Regex("cat") // creating the "cat" regex
+    
+val stringCat = "cat"
+val stringDog = "dog"
+val stringCats = "cats"
+
+println(regex.matches(stringCat))   // true
+println(regex.matches(stringDog))   // false
+println(regex.matches(stringCats))  // false</code></pre>
+<p>As you can see in the example above, when our regex is just a sequence of simple characters, the result will be true only when the string matches the regex perfectly.</p>
+<p>This might seem a little excessive: after all, we could simply compare two strings, which would be faster and easier. This is true, but remember that the true power of regular expressions is the option to use special characters that can define a certain pattern. This pattern can be matched against multiple strings at once.</p>
+<p>In addition to <code class="language-kotlin">Regex.matches()</code>, there are two other functions that are used to check whether a regular expression has an exact match to part of a <code class="language-kotlin">String</code> or <code class="language-kotlin">CharSequence</code> starting at a specific index:</p>
+<ul><li><p><code class="language-kotlin">Regex.matchAt()</code>. This function returns the match if it's found, or <code class="language-kotlin">null</code> if it isn't. If there is a match, the returned object is of type <code class="language-kotlin">MatchResult</code>, so we can access the matched <code class="language-kotlin">String</code> using the <code class="language-kotlin">value</code> property. Here is an example:</p></li></ul>
+<pre><code class="language-kotlin">val regex = Regex("cat")
+val stringCat = "The cat is eating."
+    
+println(regex.matchAt(stringCat, 4)?.value) // cat
+println(regex.matchAt(stringCat, 5)?.value) // null</code></pre>
+<ul><li><p><code class="language-kotlin">Regex.matchesAt()</code>. This function checks for a match and returns a <code class="language-kotlin">Boolean</code> result:</p></li></ul>
+<pre><code class="language-kotlin">val regex = Regex("cat")
+val stringCat = "The cat is eating."
+
+println(regex.matchesAt(stringCat, 4)) // true
+println(regex.matchesAt(stringCat, 5)) // false</code></pre>
+<p>Let's now move on to some more interesting cases.</p>
+<h5 id="the-dot-character">The dot character</h5>
+<p>This special character is already familiar to you: the dot <code class="language-kotlin">.</code> matches any single character including letters, digits, spaces, and so on. The only character it cannot match is the newline character <code class="language-kotlin">\n</code>. Other control characters such as <code class="language-kotlin">\b</code> and <code class="language-kotlin">\t</code> will still match.</p>
+<p>Consider the following examples of using the dot:</p>
+<pre><code class="language-kotlin">val regex = Regex("cat.") // creating the "cat." regex
+
+val stringCat = "cat."
+val stringEmotionalCat = "cat!"
+val stringCatWithSpace = "cat "
+val stringCatN = "cat\n"
+
+println(regex.matches(stringCat))   // true
+println(regex.matches(stringEmotionalCat))   // true
+println(regex.matches(stringCatWithSpace))  // true
+println(regex.matches(stringCatN))  //false</code></pre>
+<p>It's not complicated but certainly useful. For example, it can come in handy when you need to find the same word that appears in the text in different forms.</p>
+<h5 id="the-question-mark">The question mark</h5>
+<p>The question mark <code class="language-kotlin">?</code> is a special character that denotes <strong>optionality</strong>. It means “the preceding character or nothing”. </p>
+<p>The following example illustrates how it works:</p>
+<pre><code class="language-kotlin">val regex = Regex("cats?") // creating the "cats?" regex
+
+val stringCat = "cat"
+val stringManyCats = "cats"
+
+println(regex.matches(stringCat))   // true
+println(regex.matches(stringManyCats))   // true
+</code></pre>
+<p>You can also combine the dot character <code class="language-kotlin">.</code> and the question mark <code class="language-kotlin">?</code> in one regex pattern. This combination basically means that there can be any single character or no character at all:</p>
+<pre><code class="language-kotlin">val regex = Regex("cat.?") // creating the "cat.?" regex
+
+val stringCat = "cat"
+val stringManyCats = "cats"
+val stringEmotionalCat = "cat!"
+val stringCot = "cot"
+
+println(regex.matches(stringCat))   // true
+println(regex.matches(stringManyCats))   // true
+println(regex.matches(stringEmotionalCat))  // true
+println(regex.matches(stringCot))   // false</code></pre>
+<p>This can make your work much easier, but wait a second: what if you need to find the actual dot or the question mark? </p>
+<h5 id="the-escape-character">The escape character</h5>
+<p>If part of the actual regex happens to be a special character, this can be managed with the <a class="theory-lookup not-relevant" href="/learn/step/10721" target="_blank" title="In Kotlin, an escape sequence is a set of special characters used to represent certain symbols, such as a tab or quote mark, within a string. | Escape sequences begin with a backslash (\) followed by the character or digit that represents the desired symbol. For example, \t represents a tab, while \n represents a newline. Escape sequences are useful for formatting and organizing large strings that contain special characters. However, when working with raw strings in Kotlin, which can contain newlines and any other character, escape sequences are not necessary.">escape character</a>. When you create strings with special characters, you can escape them using a double backslash <code class="language-kotlin">\\</code>:</p>
+<pre><code class="language-kotlin">val regex = Regex("cats\\?") 
+
+val stringCat = "cat"
+val stringManyCats = "cats"
+val stringEmotionalCats = "cats?"
+
+println(regex.matches(stringCat))   // false
+println(regex.matches(stringManyCats))   // false
+println(regex.matches(stringEmotionalCats))  // true</code></pre>
+<p>In the example above, the question mark was interpreted as a question mark and nothing more.</p>
+<p>So, if you need to find a special character such as a dot or a question mark, you can escape it with <code class="language-kotlin">\\</code>. The characters on which you used the escape symbol <code class="language-kotlin">\\</code> will not be interpreted as special.</p>
+<h5 id="conclusion">Conclusion</h5>
+<p>Regular expressions are a powerful and necessary tool for working with strings in Kotlin. Now you can create <code class="language-kotlin">Regex</code> instances and use the <code class="language-kotlin">matches()</code> function that checks for a full match. Remember the special characters you can use:</p>
+<ul><li><p>The dot <code class="language-kotlin">.</code> matches any single character.</p></li><li><p>The question mark <code class="language-kotlin">?</code> means “the preceding character or nothing".</p></li><li><p>Double backslash <code class="language-kotlin">\\</code> is an escape symbol that helps you turn a special character into ordinary part of your regex.</p></li></ul>
+<p>Confidence in using regexes will prove very useful in the future. Kotlin regular expressions have many more interesting possibilities and complex cases: we will consider them in the future topics.</p>
+</div>
