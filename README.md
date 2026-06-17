@@ -142,3 +142,91 @@ Sophia VS John
 ║ ║ ║ ║ ║ ║ ║ ║ ║
 ╚═╩═╩═╩═╩═╩═╩═╩═╝
 ```
+
+## Stage 3: Game Logic
+
+In the third stage, the program adds the core game loop, handling player turns, disc placement, and input validation for moves.
+
+### Key Concepts & Features
+
+- **Turn-based Gameplay**: Alternates between the first player (`o`) and the second player (`*`).
+- **Disc Placement**: Discs "fall" to the lowest available row in the selected column.
+- **Input Validation**:
+    - Validates that the input is a number.
+    - Ensures the column number is within the board's range.
+    - Checks if the selected column is full.
+- **Graceful Termination**: Players can type `end` at any time to stop the game.
+
+### Technical Implementation
+
+#### 1. Game Loop and Turn Switching
+A `while(true)` loop keeps the game running, and a boolean flag `isFirstPlayerTurn` toggles after every valid move.
+
+```kotlin
+var isFirstPlayerTurn = true
+while(true) {
+    val currentPlayer = if (isFirstPlayerTurn) players.first else players.second
+    val currentDisc = if (isFirstPlayerTurn) 'o' else '*'
+    // ... get input and process move
+    isFirstPlayerTurn = !isFirstPlayerTurn
+}
+```
+
+#### 2. Finding the Available Row
+The program iterates from the bottom row upwards to find the first empty slot (`' '`) in the chosen column.
+
+```kotlin
+fun findAvailableRow(col: Int, rows: Int, board: List<List<Char>>): Int {
+    for (i in rows - 1 downTo 0) {
+        if (board[i][col - 1] == ' ') return i
+    }
+    return -1
+}
+```
+
+#### 3. Handling Input Errors
+The program handles various input errors by providing specific feedback and re-prompting the current player.
+
+```kotlin
+val col = input.toIntOrNull()
+if (col == null) {
+    println("Incorrect column number")
+    continue
+}
+
+if (col !in 1..dims.columns) {
+    println("The column number is out of range (1 - ${dims.columns})")
+    continue
+}
+```
+
+### Usage Example
+
+```text
+Mia VS Bill
+6 X 8 board
+ 1 2 3 4 5 6 7 8
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+╚═╩═╩═╩═╩═╩═╩═╩═╝
+Mia's turn:
+> 4
+ 1 2 3 4 5 6 7 8
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║o║ ║ ║ ║ ║
+╚═╩═╩═╩═╩═╩═╩═╩═╝
+Bill's turn:
+> 4
+...
+Mia's turn:
+> end
+Game over!
+```
