@@ -230,3 +230,62 @@ Mia's turn:
 > end
 Game over!
 ```
+
+## Stage 4: Winning Condition
+
+In the fourth stage, the program implements the winning condition and draw logic, ensuring the game ends correctly when a player wins or the board is full.
+
+### Key Concepts & Features
+
+- **Winning Conditions**: A player wins by placing four discs of the same color in a row:
+    - **Horizontally**
+    - **Vertically**
+    - **Diagonally** (both directions)
+- **Draw Condition**: If the board is full and no player has won, the game ends in a draw.
+- **Game Termination**: The program prints the result (`Player <Name> won` or `It is a draw`) followed by `Game over!` and terminates.
+
+### Technical Implementation
+
+#### 1. Win Check Algorithm
+The program checks for four consecutive discs by iterating through each cell and checking all possible directions (horizontal, vertical, and two diagonals).
+
+```kotlin
+for (i in board.indices) {
+    for (j in board[i].indices) {
+        // Horizontal
+        if (j + 3 < board[i].size && board[i][j] == disc && board[i][j + 1] == disc && board[i][j + 2] == disc && board[i][j + 3] == disc) return true
+        // Vertical
+        if (i + 3 < board.size && board[i][j] == disc && board[i + 1][j] == disc && board[i + 2][j] == disc && board[i + 3][j] == disc) return true
+        // Diagonal down-right
+        if (i + 3 < board.size && j + 3 < board[i].size && board[i][j] == disc && board[i + 1][j + 1] == disc && board[i + 2][j + 2] == disc && board[i + 3][j + 3] == disc) return true
+        // Diagonal down-left
+        if (i + 3 < board.size && j - 3 >= 0 && board[i][j] == disc && board[i + 1][j - 1] == disc && board[i + 2][j - 2] == disc && board[i + 3][j - 3] == disc) return true
+    }
+}
+```
+
+#### 2. Draw Check
+The game checks if all cells on the board are occupied using the `all` function on the board lists.
+
+```kotlin
+if (board.all { row -> row.all { cell -> cell != ' ' } }) {
+    return "It is a draw"
+}
+```
+
+### Usage Example
+
+```text
+Paul's turn:
+> 5
+ 1 2 3 4 5 6 7 8
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║*║*║*║ ║ ║ ║ ║
+║ ║ο║ο║ο║ο║ ║ ║ ║
+╚═╩═╩═╩═╩═╩═╩═╩═╝
+Player Paul won
+Game over!
+```

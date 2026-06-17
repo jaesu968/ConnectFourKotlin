@@ -127,6 +127,14 @@ fun playGame(players: Players, dims: Dimensions, board: MutableList<MutableList<
         board[rowToPlace][col - 1] = currentDisc
         printBoard(dims.rows, dims.columns, board)
 
+        // Check for win condition after each move
+        val winMessage = checkWinCondition(board, currentDisc, currentPlayer)
+        if (winMessage.isNotEmpty()){
+            println(winMessage)
+            println("Game over!")
+            return // terminate the game after a win or draw
+        }
+
         // Switch turns
         isFirstPlayerTurn = !isFirstPlayerTurn
     }
@@ -162,4 +170,38 @@ fun printBoard(rows: Int, columns: Int, board: List<List<Char>>){
         print("═╩")
     }
     println("═╝") // print right side bottom corner
+}
+
+// function to check for win condition
+fun checkWinCondition(board: List<List<Char>>, disc: Char, playerName: String): String {
+
+    // check horizontal, vertical, and diagonal for 4 in a row
+    // if 4 discs of the same color exist in a row, horizontally, vertically or diagonally
+    // then return "Player <Player's name> won"
+    // use a for loop to check for horizontal, vertical and diagonal conditions
+    for(i in board.indices){ // loop through rows
+        for(j in board[i].indices){ // loop through columns
+            // check horizontal
+            if(j + 3 < board[i].size && board[i][j] == disc && board[i][j + 1] == disc && board[i][j + 2] == disc && board[i][j + 3] == disc){
+                return "Player $playerName won"
+            }
+            // check vertical
+            if(i + 3 < board.size && board[i][j] == disc && board[i + 1][j] == disc && board[i + 2][j] == disc && board[i + 3][j] == disc){
+                return "Player $playerName won"
+            }
+            // check diagonal down-right
+            if(i + 3 < board.size && j + 3 < board[i].size && board[i][j] == disc && board[i + 1][j + 1] == disc && board[i + 2][j + 2] == disc && board[i + 3][j + 3] == disc){
+                return "Player $playerName won"
+            }
+            // check diagonal down-left
+            if(i + 3 < board.size && j - 3 >= 0 && board[i][j] == disc && board[i + 1][j - 1] == disc && board[i + 2][j - 2] == disc && board[i + 3][j - 3] == disc){
+                return "Player $playerName won"
+            }
+        }
+    }
+    // if the board is full and no winner, then return "It is a draw"
+    if(board.all { row -> row.all { cell -> cell != ' ' } }){
+        return "It is a draw"
+    }
+    return "" // game continues
 }
