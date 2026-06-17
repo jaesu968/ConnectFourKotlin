@@ -1,21 +1,49 @@
 package connectfour
 
+// Data class to keep player information together
+data class Players(val first: String, val second: String)
+
+// Data class for dimensions
+data class Dimensions(val rows: Int, val columns: Int)
+
 fun main() {
     // print title of the game - Connect Four
     println("Connect Four")
+
+    // get players
+    val players = getPlayerNames()
+    val dimensions = getBoardDimensions()
+
+    // print players and dimensions
+    println("${players.first} VS ${players.second}")
+    println("${dimensions.rows} X ${dimensions.columns} board")
+
+    // initialize the board to keep track of state
+    val board = MutableList(dimensions.rows) { MutableList(dimensions.columns) { ' ' } }
+    printBoard(dimensions.rows, dimensions.columns, board)
+
+    playGame(players, dimensions, board)
+
+}
+
+// Function to handle player naming
+fun getPlayerNames(): Players {
     // ask for first player's name
     println("First player's name:")
-    val player1 = readln()
-    
+    val p1 = readln()
+
     // ask for second player's name
     println("Second player's name:")
-    val player2 = readln()
-    // get the dimensions of the board
-    // create variables for rows and columns
-    var rows: Int
-    var columns: Int
-    // read input and parse dimensions
-    // use a while loop to get valid input for dimensions
+    val p2 = readln()
+    // return players to be used in main function
+    return Players(p1, p2)
+}
+
+// Function to handle dimension input and validation
+fun getBoardDimensions(): Dimensions {
+    val regex = Regex("(\\d+)\\s*[xX]\\s*(\\d+)") // regex pattern to match dimensions
+
+    // use a while loop to set up the dimensions
     while(true) {
         println("Set the board dimensions (Rows x Columns)")
         println("Press Enter for default (6 x 7)")
@@ -24,14 +52,9 @@ fun main() {
         val input = rawInput.replace("\\s".toRegex(), "")
 
         // Validate input // if input is empty, user presses enter set default to 6 x 7
-        if(input.isEmpty()){
-            rows = 6
-            columns = 7
-            break
-        }
+        if(input.isEmpty()) return Dimensions(6, 7)
 
-        // use a Regex to check format <number> x <number> (Case insensitive)
-        val regex = Regex("(\\d+)\\s*[xX]\\s*(\\d+)") // regex pattern to match dimensions
+        // make a variable to track for all input of the dimensions of the board
         val match = regex.matchEntire(input) // use matchEntire to check if the whole input matches the pattern
         // check if input matches the regex pattern
         if(match == null){
@@ -52,38 +75,91 @@ fun main() {
             continue
         }
         // if valid, set the rows and columns and break the loop
-        rows = r
-        columns = c
-        break
+        return Dimensions(r, c)
     }
-    // lastly output the following message;
-    // <1st player's name> VS <2nd player's name>
-    // <Rows> X <Columns> board
-    println("$player1 VS $player2")
-    println("$rows X $columns board")
+}
 
-    // Printing column numbers
+// function to run the actual game loop
+fun playGame(players: Players, dims: Dimensions, board: MutableList<MutableList<Char>>){
+    // implement the game loop
+    // make a boolean flag to track whose turn it is
+    var isFirstPlayerTurn = true
+
+    // use a while loop to go through game actions
+    while(true){
+        // get current Player for the turn
+        val currentPlayer = if (isFirstPlayerTurn) players.first else players.second
+        // get the current Disc to use for play
+        val currentDisc = if (isFirstPlayerTurn) 'o' else '*'
+
+        // print the current players turn
+        println("$currentPlayer's turn:")
+        // get input from user
+        val input = readln().trim() // trim off the whitespace
+
+        // if input is "end", then terminate the game
+        if(input == "end") {
+            println("Game over!")
+            break
+        }
+
+        // check if input is an integer
+        val col = input.toIntOrNull()
+        if (col == null){
+            println("Incorrect column number")
+            continue
+        }
+
+        // check if column is within range
+        if(col !in 1..dims.columns){
+            println("The column number is out of range (1 - ${dims.columns})")
+            continue
+        }
+
+        // check if the column is full and find the first available row
+        val rowToPlace = findAvailableRow(col, dims.rows, board)
+        if(rowToPlace == -1){
+            println("Column $col is full")
+            continue
+        }
+
+        // Update the board and print it
+        board[rowToPlace][col - 1] = currentDisc
+        printBoard(dims.rows, dims.columns, board)
+
+        // Switch turns
+        isFirstPlayerTurn = !isFirstPlayerTurn
+    }
+}
+
+// Helper function to find the first empty row in a column
+fun findAvailableRow(col: Int, rows: Int, board: List<List<Char>>): Int {
+    for (i in rows - 1 downTo 0) {
+        if (board[i][col - 1] == ' ') return i
+    }
+    return - 1 // return -1 if no valid row
+}
+
+// print the board function to get the current state of the board
+fun printBoard(rows: Int, columns: Int, board: List<List<Char>>){
+    // Print column numbers
     for (i in 1..columns){
         print(" $i")
     }
-    println() // print empty space to separate columns numbers from the columns themselves
+    println() // print empty space for separation
 
-    // Print row with vertical characters
-    for (i in 1..rows){
-        for(j in 1..columns + 1){
-            print("║ ") // Use "|" if box-drawing characters not supported
+    // print rows with vertical characters and board
+    for (i in 0 until rows){
+        for (j in 0 until columns){
+            print("║${board[i][j]}")
         }
-        println() // print empty space to separte rows
+        println("║") // print right and left side borders
     }
-
     // print the bottom border
-    // use "=" if box-drawing characters are not supported
-    // print the left bottom corner for the border
-    print("╚")
-    // middle bottom border with "═╩" for each column except the last one
+    print("╚") // print left side bottom corner
+    // print middle bottom border
     for (i in 1 until columns){
         print("═╩")
     }
-    // print the bottom right corner
-    println("═╝")
+    println("═╝") // print right side bottom corner
 }
