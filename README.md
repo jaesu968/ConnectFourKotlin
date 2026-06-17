@@ -69,3 +69,76 @@ Press Enter for default (6 x 7)
 Anna VS Joan
 7 X 9 board
 ```
+
+## Stage 2: Game Board
+
+In the second stage, the program draws the game board using box-drawing characters based on the dimensions provided.
+
+### Key Concepts & Features
+
+- **Column Numbering**: Automatically prints column numbers (1 to N) aligned with the board columns.
+- **Dynamic Board Rendering**: 
+    - Uses `║` for vertical walls.
+    - Uses `╚`, `═`, `╩`, and `╝` for the bottom border.
+- **Support for Variable Sizes**: The board structure adjusts perfectly to any valid dimensions (5x5 to 9x9).
+- **Fallback Compatibility**: Although the program uses box-drawing characters, it can be easily adapted to use `|` and `=` if the console doesn't support UTF-8 characters.
+
+### Technical Implementation
+
+#### 1. Printing Column Numbers
+Numbers are printed with a leading space to align with the board slots.
+
+```kotlin
+for (i in 1..columns) {
+    print(" $i")
+}
+println()
+```
+
+#### 2. Drawing Rows and Walls
+Each row consists of `columns + 1` vertical bars (`║`) to create the slots.
+
+```kotlin
+repeat(rows) {
+    repeat(columns + 1) {
+        print("║ ")
+    }
+    println()
+}
+```
+
+#### 3. Constructing the Bottom Border
+The bottom border is built dynamically to connect all vertical lines.
+
+```kotlin
+print("╚")
+repeat(columns - 1) {
+    print("═╩")
+}
+println("═╝")
+```
+
+### Usage Example
+
+```text
+Connect Four
+First player's name:
+> Sophia
+Second player's name:
+> John
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 8 x 8
+Sophia VS John
+8 X 8 board
+ 1 2 3 4 5 6 7 8
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+║ ║ ║ ║ ║ ║ ║ ║ ║
+╚═╩═╩═╩═╩═╩═╩═╩═╝
+```

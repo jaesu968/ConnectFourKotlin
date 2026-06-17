@@ -61,4 +61,29 @@ fun main() {
     // <Rows> X <Columns> board
     println("$player1 VS $player2")
     println("$rows X $columns board")
+
+    // Printing column numbers
+    for (i in 1..columns){
+        print(" $i")
+    }
+    println() // print empty space to separate columns numbers from the columns themselves
+
+    // Print row with vertical characters
+    for (i in 1..rows){
+        for(j in 1..columns + 1){
+            print("║ ") // Use "|" if box-drawing characters not supported
+        }
+        println() // print empty space to separte rows
+    }
+
+    // print the bottom border
+    // use "=" if box-drawing characters are not supported
+    // print the left bottom corner for the border
+    print("╚")
+    // middle bottom border with "═╩" for each column except the last one
+    for (i in 1 until columns){
+        print("═╩")
+    }
+    // print the bottom right corner
+    println("═╝")
 }
