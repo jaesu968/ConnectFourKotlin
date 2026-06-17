@@ -289,3 +289,103 @@ Paul's turn:
 Player Paul won
 Game over!
 ```
+
+## Stage 5: Multiple Games
+
+In the final stage, the program is enhanced to support multiple games in a row, including a scoring system and alternating starting players for each game.
+
+### Key Concepts & Features
+
+- **Game Mode Selection**: At the start, players can choose to play a single game or a specific number of games.
+- **Score Tracking**: 
+    - A win awards **2 points**.
+    - A draw awards **1 point** to each player.
+- **Alternating Starts**: To ensure fairness, players alternate who starts each game.
+- **Score Display**: The current score is displayed after each game.
+- **Final Result**: The game concludes with a "Game over!" message after all rounds are completed or a player terminates early.
+
+### Technical Implementation
+
+#### 1. Number of Games Selection
+The program prompts the user for the number of games, defaulting to 1 if Enter is pressed.
+
+```kotlin
+fun getNumberOfGames(): Int {
+    while(true) {
+        println("Do you want to play single or multiple games?")
+        println("For a single game, input 1 or press Enter")
+        println("Input a number of games:")
+        val input = readln().trim()
+        if (input.isEmpty()) return 1
+        val num = input.toIntOrNull()
+        if (num == null || num < 1) {
+            println("Invalid input")
+            continue
+        }
+        return num
+    }
+}
+```
+
+#### 2. Alternating Starting Player
+The starting player alternates based on the game number (`gameCount % 2 != 0`).
+
+```kotlin
+var gameCount = 1
+while(gameCount <= numberOfGames) {
+    val firstPlayerStarts = gameCount % 2 != 0
+    val result = playGame(players, dimensions, firstPlayerStarts)
+    // ... update scores and display
+    gameCount++
+}
+```
+
+#### 3. Score Management
+Scores are updated based on the result of each game and displayed to the players.
+
+```kotlin
+when (result) {
+    "Draw" -> {
+        score1 += 1
+        score2 += 1
+    }
+    players.first -> score1 += 2
+    players.second -> score2 += 2
+}
+println("Score")
+println("${players.first}: $score1 ${players.second}: $score2")
+```
+
+### Usage Example
+
+```text
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 
+Do you want to play single or multiple games?
+For a single game, input 1 or press Enter
+Input a number of games:
+> 2
+Anna VS Joan
+6 X 7 board
+Total 2 games
+Game #1
+ 1 2 3 4 5 6 7
+║ ║ ║ ║ ║ ║ ║ ║
+...
+Player Anna won
+Score
+Anna: 2 Joan: 0
+Game #2
+ 1 2 3 4 5 6 7
+...
+It is a draw
+Score
+Anna: 3 Joan: 1
+Game over!
+```

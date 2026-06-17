@@ -9,21 +9,55 @@ data class Dimensions(val rows: Int, val columns: Int)
 fun main() {
     // print title of the game - Connect Four
     println("Connect Four")
-
-    // get players
+    // get players and dimensions from user input
     val players = getPlayerNames()
     val dimensions = getBoardDimensions()
-
+    // check for the number of games and put in a variable
+    val numberOfGames = getNumberOfGames()
     // print players and dimensions
     println("${players.first} VS ${players.second}")
     println("${dimensions.rows} X ${dimensions.columns} board")
+    // get number of games
+    if(numberOfGames == 1){
+        println("Single game")
+    } else {
+        println("Total $numberOfGames games")
+    }
 
-    // initialize the board to keep track of state
-    val board = MutableList(dimensions.rows) { MutableList(dimensions.columns) { ' ' } }
-    printBoard(dimensions.rows, dimensions.columns, board)
+    // variables to track score for multiple games
+    var score1 = 0
+    var score2 = 0
+    var gameCount = 1 // game count should be at least 1 for the first game
 
-    playGame(players, dimensions, board)
+    // use a while loop to play multiple games if needed
+    while(gameCount <= numberOfGames){
+        if(numberOfGames > 1) println("Game #$gameCount") // print game number if multiple games are being played
 
+        // Alternate who starts each game by using the game count to determine if the first player starts or the second player starts
+        val firstPlayerStarts = gameCount % 2 != 0 // alternate starting player for each game
+        val result = playGame(players, dimensions, firstPlayerStarts) // play the game and get the result
+
+        // if the result is end, break the loop and end the game
+        if (result == "end") break
+
+        // if the result is a draw, then update scores
+        when (result) {
+             "Draw" -> {
+                 score1 += 1
+                 score2 += 1
+             }
+             players.first -> score1 += 2
+             players.second -> score2 += 2
+        }
+
+        // print the score after each game
+        println("Score")
+        println("${players.first}: $score1 ${players.second}: $score2")
+
+        gameCount++ // increment game count for the next game
+    }
+
+    println("Game over!")
 }
 
 // Function to handle player naming
@@ -79,29 +113,47 @@ fun getBoardDimensions(): Dimensions {
     }
 }
 
+// number of games function to handle input and validation for number of games to play
+fun getNumberOfGames() : Int {
+    while(true) {
+        println("Do you want to play single or multiple games?")
+        println("For a single game, input 1 or press Enter")
+        println("Input a number of games:")
+        val input = readln().trim() // trim off whitespace
+        if (input.isEmpty()) return 1 // default to single game if input is empty
+        val num = input.toIntOrNull()
+        if (num == null || num < 1) {
+            println("Invalid input")
+            continue // loop again until a valid input is received
+        }
+        return num
+    }
+}
+
 // function to run the actual game loop
-fun playGame(players: Players, dims: Dimensions, board: MutableList<MutableList<Char>>){
+fun playGame(players: Players, dims: Dimensions, firstPlayerStarts: Boolean): String{
+    // initialize the board to keep track of state
+    val board = MutableList(dims.rows) { MutableList(dims.columns) { ' ' } }
+    // print the initial board
+    printBoard(dims.rows, dims.columns, board)
     // implement the game loop
     // make a boolean flag to track whose turn it is
-    var isFirstPlayerTurn = true
+    var isFirstPlayerTurn = firstPlayerStarts
 
     // use a while loop to go through game actions
     while(true){
         // get current Player for the turn
-        val currentPlayer = if (isFirstPlayerTurn) players.first else players.second
+        val currentPlayerName = if (isFirstPlayerTurn) players.first else players.second
         // get the current Disc to use for play
         val currentDisc = if (isFirstPlayerTurn) 'o' else '*'
 
         // print the current players turn
-        println("$currentPlayer's turn:")
+        println("$currentPlayerName's turn:")
         // get input from user
         val input = readln().trim() // trim off the whitespace
 
         // if input is "end", then terminate the game
-        if(input == "end") {
-            println("Game over!")
-            break
-        }
+        if(input == "end") return "end"
 
         // check if input is an integer
         val col = input.toIntOrNull()
@@ -128,13 +180,11 @@ fun playGame(players: Players, dims: Dimensions, board: MutableList<MutableList<
         printBoard(dims.rows, dims.columns, board)
 
         // Check for win condition after each move
-        val winMessage = checkWinCondition(board, currentDisc, currentPlayer)
-        if (winMessage.isNotEmpty()){
-            println(winMessage)
-            println("Game over!")
-            return // terminate the game after a win or draw
+        val winStatus = checkWinCondition(board, currentDisc, currentPlayerName)
+        if (winStatus.isNotEmpty()){
+            println(winStatus)
+            return if (winStatus == "It is a draw") "Draw" else currentPlayerName
         }
-
         // Switch turns
         isFirstPlayerTurn = !isFirstPlayerTurn
     }
